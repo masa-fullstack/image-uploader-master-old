@@ -1,0 +1,26 @@
+version: "3"
+volumes:
+  node_modules_volume:
+services:
+  nextjs:
+    build: ./frontend_docker/
+    container_name: image-uploader-master
+    ports:
+      - "4001:3000"
+      - "8080:8080"
+    volumes:
+      - ./app:/usr/src/app
+      - node_modules_volume:/usr/src/app/node_modules
+    tty: true
+    stdin_open: true
+    command: "yarn dev"
+  nestjs:
+    build: ./backend_docker/
+    container_name: image-uploader-backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/myapp
+    tty: true
+    stdin_open: true
+    command: "npm run start"
